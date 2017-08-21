@@ -1,0 +1,174 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import xml.sax
+
+#type类
+class type(object):
+    def __init__(self,a=""):
+        self.type=a
+        self.subClassOf=[]
+#ObjectProperties类
+class ObjectProperties(object):
+    def __init__(self,a="",b="",c="None"):
+        self.PropertiesName=a
+        self.domain=b
+        self.range=c
+        self.equivalentProperty=[]
+        self.FunctionalProperty=0
+        self.subPropertyOf=[]
+
+#Data properties类
+class DataProperties(object):
+    def __init__(self,a="",b="",c="None"):
+        self.PropertiesName=a
+        self.domain=b
+        self.range=c
+        self.equivalentProperty=[]
+        self.FunctionalProperty=0
+        self.subPropertyOf=[]
+
+type_list=[]
+ObjectProperties_list=[]
+DataProperties_list=[]
+
+#OP标签处理
+class typeHandler(xml.sax.ContentHandler):
+    def __init__(self):
+        pass
+
+    def startElement(self, tag, attributes):
+        if tag == "owl:Class":
+            t=type()
+            t.type=attributes["rdf:about"]
+            type_list.append(t)
+        if tag == "rdfs:subClassOf":
+            type_list[-1].subClassOf.append(attributes["rdf:resource"])
+        if tag == "owl:ObjectProperty":
+            t=ObjectProperties()
+            t.PropertiesName=attributes["rdf:about"]
+            ObjectProperties_list.append(t)
+        if tag == "rdfs:domain":
+            ObjectProperties_list[-1].domain=attributes["rdf:resource"]
+        if tag == "rdfs:range":
+            ObjectProperties_list[-1].range = attributes["rdf:resource"]
+        if tag == "owl:equivalentProperty":
+            ObjectProperties_list[-1].equivalentProperty.append(attributes["rdf:resource"])
+        if tag == "rdfs:subPropertyOf":
+            ObjectProperties_list[-1].subPropertyOf.append(attributes["rdf:resource"])
+        if tag == "rdf:type":
+            if attributes["rdf:resource"]=="http://www.w3.org/2002/07/owl#FunctionalProperty":
+                ObjectProperties_list[-1].FunctionalProperty=1
+
+    def endElement(self, tag):
+        pass
+
+    def characters(self, content):
+        pass
+
+# DP标签处理
+class DPHandler(xml.sax.ContentHandler):
+    def __init__(self):
+        pass
+
+    def startElement(self, tag, attributes):
+        if tag == "owl:Class":
+            t = type()
+            t.type = attributes["rdf:about"]
+            type_list.append(t)
+        if tag == "rdfs:subClassOf":
+            type_list[-1].subClassOf.append(attributes["rdf:resource"])
+        if tag == "rdfs:domain":
+            DataProperties_list[-1].domain = attributes["rdf:resource"]
+        if tag == "rdfs:range":
+            DataProperties_list[-1].range = attributes["rdf:resource"]
+        if tag == "owl:equivalentProperty":
+            DataProperties_list[-1].equivalentProperty.append(attributes["rdf:resource"])
+        if tag == "owl:DatatypeProperty":
+            t = DataProperties()
+            t.PropertiesName = attributes["rdf:about"]
+            DataProperties_list.append(t)
+        if tag == "rdfs:subPropertyOf":
+            DataProperties_list[-1].subPropertyOf.append(attributes["rdf:resource"])
+        if tag == "rdf:type":
+            if attributes["rdf:resource"] == "http://www.w3.org/2002/07/owl#FunctionalProperty":
+                DataProperties_list[-1].FunctionalProperty = 1
+
+    def endElement(self, tag):
+        pass
+
+    def characters(self, content):
+        pass
+
+
+#找OP
+def findOP(str):
+    for t in ObjectProperties_list:
+        if t.PropertiesName==str:
+            return ObjectProperties_list.index(t)
+    return "error"
+
+#找DP
+def findDP(str):
+    for t in DataProperties_list:
+        if t.PropertiesName==str:
+            return DataProperties_list.index(t)
+    return "error"
+
+if __name__ == "__main__":
+    parser = xml.sax.make_parser()
+    parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+    Handler = typeHandler()
+    parser.setContentHandler(Handler)
+    parser.parse("C:/Users/Administrator/Desktop/3.owl")
+    Handler = DPHandler()
+    parser.setContentHandler(Handler)
+    parser.parse("C:/Users/Administrator/Desktop/4.owl")
+    i=0
+    while(True):
+        if(ObjectProperties_list[i].equivalentProperty.__len__()!=0):
+            t=ObjectProperties_list[i]
+            if(t.domain==""):
+                ind=findOP(t.equivalentProperty[0])
+                t.domain=ObjectProperties_list[ind].domain
+                t.range=ObjectProperties_list[ind].range
+            else:
+                for j in t.equivalentProperty:
+                    ind = findOP(j)
+                    ObjectProperties_list[ind].domain=t.domain
+                    ObjectProperties_list[ind].range=t.range
+        if (ObjectProperties_list[i].subPropertyOf.__len__() != 0):
+            t=ObjectProperties_list[i]
+            ind = findDP(t.equivalentProperty[0])
+            if (t.domain == ""):
+                t.domain=ObjectProperties_list[ind].domain
+            if(t.range == "None"):
+                t.range = ObjectProperties_list[ind].range
+        i=i+1
+        if(i==ObjectProperties_list.__len__()):
+            break
+    i=0
+    while (True):
+        if (DataProperties_list[i].equivalentProperty.__len__() != 0):
+            t = DataProperties_list[i]
+            if (t.domain == ""):
+                ind = findDP(t.equivalentProperty[0])
+                t.domain = DataProperties_list[ind].domain
+                t.range = DataProperties_list[ind].range
+            else:
+                for j in t.equivalentProperty:
+                    ind = findDP(j)
+                    DataProperties_list[ind].domain = t.domain
+                    DataProperties_list[ind].range = t.range
+        if (DataProperties_list[i].subPropertyOf.__len__() != 0):
+            t=DataProperties_list[i]
+            ind = findDP(t.subPropertyOf[0])
+            if (t.domain == ""):
+                t.domain=DataProperties_list[ind].domain
+            if(t.range == "None"):
+                t.range = DataProperties_list[ind].range
+        i = i + 1
+        if (i == DataProperties_list.__len__()):
+            break
+    i=0
+
