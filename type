@@ -3,6 +3,8 @@
 
 import xml.sax
 
+type_dict={'WrittenWork':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/书面作品','Writer':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/作家','Work':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/作品','Website':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/网站','Weapon':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/武器','Village':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/乡','University':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/大学','Stream':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/河','Station':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/站','Star':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/恒星','SportsTeam':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/运动队','Sport':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/体育运动','Species':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/物种','Software':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/软件','Single':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/单曲','Settlement':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/区','School':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/学校','Region':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/区域','RailwayStation':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/火车站','PowerStation':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/变电站','PopulatedPlace':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/居民点','Plant':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/植物','Place':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/地点','Person':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/人物','PeriodicalLiterature':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/期刊文学','Park':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/公园','Organisation':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/组织机构','OfficeHolder':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/官员','Newspaper':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/报刊','NaturalPlace':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/自然风光','MusicalWork':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/音乐作品','Museum':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/博物馆','Mountain':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/山峰','MilitaryPerson':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/军人','Language':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/语言','Island':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/岛','Insect':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/昆虫','Infrastructure':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/基础设施','RouteOfTransportation':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/运输线路','Hospital':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/医院','Holiday':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/节假日','GovernmentAgency':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/政府机构','Fungus':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/真菌','Food':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/食物','FloweringPlant':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/开花植物','Fish':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/鱼','FictionalCharacter':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/虚构角色','Eukaryote':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/真核生物','EthnicGroup':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/民族','EducationalInstitution':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/教育机构','Economist':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/经济学家','Drug':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/药物','Disease':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/疾病','Device':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/设备','Country':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/国家','Company':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/公司','CelestialBody':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/天体','Cartoon':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/卡通','Building':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/建筑','Bridge':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/桥','Book':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/书籍','BodyOfWater':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/水域','Bird':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/鸟','Award':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/奖项','Automobile':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/汽车','Athlete':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/运动员','ArchitecturalStructure':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/建筑结构','Architect':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/建筑师','Animal':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/动物','Album':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/专辑','Airport':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/机场','Aircraft':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/飞机','Agent':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/事件','Actor':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/演员','Activity':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/活动','Surname':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/姓','Name':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/名','Artist':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/艺人','Band':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/乐队','Library':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/图书馆','Model':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/模特','Mollusca':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/软体动物','Publisher':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/出版社','Royalty':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/王室成员','ComicsCharacter':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/漫画人物','AnimangaCharacter':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/动漫人物','BasketballPlayer':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/篮球运动员','SoccerClub':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/足球队','MeanOfTransportation':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/交通工具','MusicalArtist':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/音乐艺术家','VoiceActor':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/配音演员','SportFacility':'http://www.kw.fudan.edu.cn/cndbpedia/ontologies/运动场馆'}
+
 #type类
 class type(object):
     def __init__(self,a=""):
@@ -17,7 +19,6 @@ class ObjectProperties(object):
         self.equivalentProperty=[]
         self.FunctionalProperty=0
         self.subPropertyOf=[]
-
 #Data properties类
 class DataProperties(object):
     def __init__(self,a="",b="",c="None"):
@@ -27,11 +28,13 @@ class DataProperties(object):
         self.equivalentProperty=[]
         self.FunctionalProperty=0
         self.subPropertyOf=[]
-
+Dic="C:/Users/Administrator/Desktop/test/"
 type_list=[]
 ObjectProperties_list=[]
 DataProperties_list=[]
-
+Instance_dict={}
+Instance_file="C:/Users/Administrator/Desktop/11.txt"
+infobox_file="C:/Users/Administrator/Desktop/12.txt"
 #OP标签处理
 class typeHandler(xml.sax.ContentHandler):
     def __init__(self):
@@ -115,6 +118,52 @@ def findDP(str):
             return DataProperties_list.index(t)
     return "error"
 
+#得到实例们
+def getInstance():
+    f_instance = open(Instance_file, 'r')
+    while(True):
+        l = f_instance.readline()
+        if not l:
+            break
+            pass
+        ind=l.index('\t')
+        l_t=[]
+        l_t.append(l[:ind])
+        l_t.append(l[ind:])
+        i_t=[]
+        while(True):
+            ind1=l_t[1].index('<')
+            ind2=l_t[1].index('>')
+            i_t.append(l_t[1][ind1+1:ind2])
+            l_t[1]=l_t[1][ind2+1:]
+            if(l_t[1].__len__()==1):
+                Instance_dict[l_t[0]]=i_t
+                break
+
+#getProperties
+def getProperty(l):
+    for t in ObjectProperties_list:
+        if t.PropertiesName[48:]==l:
+            return t
+    for t in DataProperties_list:
+        if t.PropertiesName[48:] == l:
+            return t
+    return "error"
+#getType
+def getType(l):
+    if (Instance_dict.get(l,0)==0):
+        return "error"
+    return Instance_dict[l]
+#split info
+def mySplitInfo(l):
+    ind=l.index('\t')
+    t=[]
+    t.append(l[:ind])
+    l=l[ind+1:]
+    ind=l.index('\t')
+    t.append(l[:ind])
+    t.append(l[ind+1:-1])
+    return t
 if __name__ == "__main__":
     parser = xml.sax.make_parser()
     parser.setFeature(xml.sax.handler.feature_namespaces, 0)
@@ -125,6 +174,7 @@ if __name__ == "__main__":
     parser.setContentHandler(Handler)
     parser.parse("C:/Users/Administrator/Desktop/4.owl")
     i=0
+    #处理OP表
     while(True):
         if(ObjectProperties_list[i].equivalentProperty.__len__()!=0):
             t=ObjectProperties_list[i]
@@ -147,6 +197,7 @@ if __name__ == "__main__":
         i=i+1
         if(i==ObjectProperties_list.__len__()):
             break
+    #处理DP表
     i=0
     while (True):
         if (DataProperties_list[i].equivalentProperty.__len__() != 0):
@@ -170,5 +221,103 @@ if __name__ == "__main__":
         i = i + 1
         if (i == DataProperties_list.__len__()):
             break
-    i=0
 
+    getInstance()
+    file_infobox=open(infobox_file,'r')
+    while (True):
+        l = file_infobox.readline()
+        if not l:
+            break
+
+        l_t = mySplitInfo(l)
+        #判断属性是否在属性表中
+        Property=getProperty(l_t[1])
+        if (Property=="error"):
+            with open(Dic+'propertyError.txt','a') as f:#error：属性没在已有属性表中
+                f.write(l)
+            continue#error：属性没在已有属性表中
+
+        #判断domian是否正确
+        nowType=getType(l_t[0])
+        if (nowType=="error"):
+            with open(Dic+'domainTypeError.txt', 'a') as f:
+                f.write(l)
+            continue#error：Type没在已有Type表中
+        if (Property.domain!="http://www.w3.org/2002/07/owl#Thing"):
+            f=0
+            for t in nowType:
+                if(isinstance(t,dict)):
+                    break
+                if type_dict[t[28:]]==Property.domain:
+                    f=1
+            if (f==0):
+                with open(Dic+'domainError.txt', 'a') as f:
+                    f.write(l)
+                continue#error：domain错误
+
+        #如果是OP属性，判断range是否合格
+        if (isinstance(Property,ObjectProperties)):
+            Type2 = getType(l_t[2])
+            if (Type2 == "error"):
+                with open(Dic+'rangeTypeError.txt', 'a') as f:
+                    f.write(l)
+                continue  #error：Type没在已有Type表中
+            f = 0
+            for t in Type2:
+                if(isinstance(t,dict)):
+                    break
+                if type_dict[t[28:]] == Property.range:
+                    f = 1
+            if (f == 0):
+                with open(Dic+'rangeError.txt', 'a') as f:
+                    f.write(l)
+                continue#error：OP range错误
+            if (isinstance(nowType[-1], dict)):
+                # 检查是否是FunctionalProperty
+                if (Property.FunctionalProperty == 1):
+                    if (nowType[-1].get(l_t[1], False) == False):
+                        with open(Dic + 'functionalPropertyError.txt', 'a') as f:
+                            f.write(l)
+                        continue  # error：FunctionalProperty错误
+                # 属性合格，将该属性加入instance表中
+                nowType[-1][l_t[1]] = [l_t[2],0]#0表示为OP属性
+            else:
+                tmp = {}
+                tmp[l_t[1]] = [l_t[2],0]#0表示为OP属性
+                nowType.append(tmp)
+        #如果是DP属性，判断range是否合格
+        else:
+            pass#error：DP range错误
+            if (isinstance(nowType[-1], dict)):
+                # 检查是否是FunctionalProperty
+                if (Property.FunctionalProperty == 1):
+                    if (nowType[-1].get(l_t[1], False) == False):
+                        with open(Dic + 'functionalPropertyError.txt', 'a') as f:
+                            f.write(l)
+                        continue  # error：FunctionalProperty错误
+                # 属性合格，将该属性加入instance表中
+                nowType[-1][l_t[1]] = [l_t[2],1]#0表示为OP属性
+            else:
+                tmp = {}
+                tmp[l_t[1]] = [l_t[2],1]#0表示为OP属性
+                nowType.append(tmp)
+
+    for k in Instance_dict:
+        with open(Dic + 'output.txt', 'a') as f:
+            l=" <!-- http://www.kw.fudan.edu.cn/cndbpedia/ontologies/"+k+" -->\n\n"
+            f.write(l)
+            if (isinstance(Instance_dict[k][-1],dict)):
+                l='   <owl:NamedIndividual rdf:about="http://www.kw.fudan.edu.cn/cndbpedia/ontologies/' + k + '">\n'
+                f.write(l)
+                for p in Instance_dict[k][-1]:
+                    if(Instance_dict[k][-1][p][1]==0):#OP属性
+                        l="     <"+p+' rdf:resource="http://www.kw.fudan.edu.cn/cndbpedia/ontologies/'+Instance_dict[k][-1][p][0]+'"/>\n'
+                    else:#DP属性
+                        l="     <"+p+">"+Instance_dict[k][-1][p][0]+"</"+p+">\n"
+                    f.write(l)
+                l=" </owl:NamedIndividual>\n\n"
+                f.write(l)
+            else:
+                l = '   <owl:NamedIndividual rdf:about="http://www.kw.fudan.edu.cn/cndbpedia/ontologies/' + k + '"/>\n\n'
+                f.write(l)
+i=0
